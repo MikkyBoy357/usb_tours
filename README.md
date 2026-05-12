@@ -1,36 +1,88 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Tour with MrUSB
 
-## Getting Started
+Premium tourism website for **Tour with MrUSB** — guided experiences across Benin Republic and Africa.
 
-First, run the development server:
+Built with Next.js 16 (App Router, Turbopack), TypeScript, Tailwind v4, shadcn/ui, Framer Motion, MDX, and Biome.
+
+## Develop
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build
+npm run lint     # biome check
+npm run format   # biome format --write
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Project shape
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+src/
+  app/                 # routes (App Router)
+    actions/           # server actions
+    journal/[slug]/    # dynamic MDX article
+    tours/[slug]/      # dynamic tour detail
+    destinations/...
+    sitemap.ts robots.ts rss.xml/route.ts
+    not-found.tsx
+  components/
+    home/              # home-page sections
+    site/              # layout shell (header, footer, page hero)
+    tours/             # tour-specific UI (card, itinerary, gallery, map)
+    journal/           # journal UI (post card, TOC, category filter)
+    forms/             # inquiry form, newsletter
+    mdx/               # MDX component overrides
+    seo/               # JSON-LD helpers
+    ui/                # shadcn primitives
+  lib/                 # tours, destinations, testimonials, journal, faqs, utils
+content/journal/       # MDX articles + frontmatter
+public/images/         # locally hosted hero/cover photos
+supabase/migrations/   # SQL for inquiries table
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Booking inquiries
 
-## Learn More
+The inquiry form persists to Supabase and notifies the team via Resend. Both are **optional in dev** — when env vars are absent, the action logs to the server console and still returns success to the user.
 
-To learn more about Next.js, take a look at the following resources:
+### Wire it up
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Copy `.env.example` to `.env.local` and fill in:
+   - `NEXT_PUBLIC_SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY`
+   - `RESEND_API_KEY`, `RESEND_FROM`, `RESEND_TO`
+2. Run the migration in your Supabase project SQL editor (or via the CLI):
+   ```sql
+   -- See supabase/migrations/0001_inquiries.sql
+   ```
+   Public anonymous role can `INSERT`; only authenticated users can `SELECT`.
+3. Verify in Supabase Dashboard → Table Editor → `inquiries` after submitting a test inquiry.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Content
 
-## Deploy on Vercel
+Journal articles live in `content/journal/*.mdx`. Frontmatter shape:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```yaml
+---
+title: "..."
+excerpt: "..."
+cover: "/images/<id>.jpg"
+coverAlt: "..."
+category: "Culture" | "Photography" | "Guide" | ...
+tags: ["..."]
+author: { name: "...", bio: "..." }
+publishedAt: "YYYY-MM-DD"
+featured: true   # optional
+---
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Custom MDX shortcodes available: `<PullQuote>`, `<YouTube id="..." />`.
+
+## Imagery
+
+All photos are stored locally in `public/images/` (Unsplash sources, license-permitted). To replace any image, drop a new JPG at the same path — no code changes. For production, swap these for your own photography on a CDN (Cloudinary, Bunny, ImageKit).
+
+## SEO
+
+- Per-route `Metadata` with OG + Twitter cards
+- JSON-LD: `TravelAgency`, `WebSite`, per-tour `TouristTrip`, per-article `Article`, `FAQPage`, `AggregateRating` + `Review`
+- `/sitemap.xml`, `/robots.txt`, `/rss.xml`
+- Heading anchors via `rehype-slug` + `rehype-autolink-headings`
