@@ -35,7 +35,7 @@ export function PageHero({
         src={image.src}
         alt={image.alt}
         fill
-        priority
+        preload
         sizes="100vw"
         className="object-cover object-center"
       />

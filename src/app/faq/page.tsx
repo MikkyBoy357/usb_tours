@@ -46,8 +46,8 @@ export default function FaqPage() {
         description="The honest version. If anything here is unclear or missing, write to us — we'll add it."
         crumbs={[{ label: "Home", href: "/" }, { label: "FAQ" }]}
         image={{
-          src: "/images/1488646953014-85cb44e25828.jpg",
-          alt: "Sunrise over water",
+          src: "/photos/aguegue-signpost.jpg",
+          alt: "The Baie de Aguégué signpost in the mangroves of Lake Nokoué",
         }}
       />
 

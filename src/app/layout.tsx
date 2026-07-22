@@ -36,14 +36,21 @@ export const metadata: Metadata = {
   authors: [{ name: siteConfig.name }],
   keywords: [
     "Benin tours",
-    "Africa tourism",
-    "Ouidah",
+    "Tour with MrUSB",
+    "Benin Republic travel",
+    "Ouidah voodoo festival",
+    "Temple of Pythons Ouidah",
+    "Ganvié stilt village",
+    "Lake Nokoué water park",
+    "Aguégué mangroves",
     "Pendjari safari",
-    "Ganvié",
-    "Abomey",
+    "Abomey royal palaces",
+    "Amazon of Dahomey statue",
+    "Cotonou tours",
     "guided tours Benin",
-    "travel Benin Republic",
+    "West Africa cultural tours",
     "African heritage tours",
+    "Vodun Benin",
   ],
   alternates: {
     canonical: "/",
@@ -75,7 +82,13 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true, "max-image-preview": "large" },
   },
-  icons: { icon: "/favicon.ico" },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.png", type: "image/png", sizes: "512x512" },
+    ],
+    apple: { url: "/apple-icon.png", sizes: "180x180" },
+  },
 };
 
 export default function RootLayout({

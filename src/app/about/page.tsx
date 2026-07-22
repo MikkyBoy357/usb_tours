@@ -38,24 +38,24 @@ const values = [
   },
 ];
 
-const team = [
+const moments = [
   {
-    name: "Mr USB",
-    role: "Founder",
-    image: "/images/1547036967-23d11aacaee0.jpg",
-    bio: "Born in Cotonou, raised between Benin and Senegal. Twelve years guiding before founding the company.",
+    name: "The Temple of Pythons",
+    role: "Ouidah",
+    image: "/photos/python-temple-joy.jpg",
+    bio: "Meeting the royal pythons that have been protected in this temple for centuries — one of the most memorable stops on the Ouidah trail.",
   },
   {
-    name: "Yves Akakpo",
-    role: "Cultural Lead — Ouidah",
-    image: "/images/1547471080-7cc2caa01a7e.jpg",
-    bio: "Ouidah-born. Specialist in the Slave Route, Vodun history, and the spiritual geography of the coast.",
+    name: "The Aguégué mangroves",
+    role: "Lake Nokoué",
+    image: "/photos/water-bikes-friends.jpg",
+    bio: "Kayaks, hydrobikes, a floating course and jet skis on the water — a full day of adventure in the mangroves.",
   },
   {
-    name: "Amina Sow",
-    role: "Operations",
-    image: "/images/1493514789931-586cb221d7a7.jpg",
-    bio: "Logistics, vehicles, lodges, and the 24/7 ops line. The reason your trip will run on time.",
+    name: "The voodoo festival",
+    role: "Ouidah · 10 January",
+    image: "/photos/voodoo-dancer-sand.jpg",
+    bio: "The annual Vodun celebration in full colour — drummers, adepts in white, and dancers wrapped in bright wax-print cloth.",
   },
 ];
 
@@ -68,8 +68,8 @@ export default function AboutPage() {
         description="A small, Cotonou-based team running tours we'd want to be on."
         crumbs={[{ label: "Home", href: "/" }, { label: "About" }]}
         image={{
-          src: "/images/1538935732373-f7a495fea3f6.jpg",
-          alt: "Cotonou street life",
+          src: "/photos/tour-group-photo.jpg",
+          alt: "The MrUSB travelling group together on a Benin departure",
         }}
         height="tall"
       />
@@ -150,13 +150,13 @@ export default function AboutPage() {
         <Container>
           <Reveal>
             <SectionHeading
-              eyebrow="The team"
-              title="A few of the people you'll meet."
-              description="When you book a trip with us, these are the names you'll see on your itinerary."
+              eyebrow="On the ground"
+              title="Moments from recent departures."
+              description="A few frames from the trips we've run — the pythons, the water, and the festival that draws travellers from around the world."
             />
           </Reveal>
           <div className="mt-16 grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
-            {team.map((p, i) => (
+            {moments.map((p, i) => (
               <Reveal key={p.name} delay={i * 0.08}>
                 <div>
                   <div className="relative aspect-[4/5] overflow-hidden rounded-3xl">

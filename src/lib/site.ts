@@ -1,22 +1,35 @@
+// Canonical site URL. Prefers an explicit NEXT_PUBLIC_SITE_URL, then falls back
+// to Vercel's stable production domain, then to the placeholder domain — so the
+// site is correct on a *.vercel.app preview and on a real domain later, with no
+// code change (just set NEXT_PUBLIC_SITE_URL once the real domain is live).
+const siteUrl = (
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "https://tourwithmrusb.com")
+).replace(/\/$/, "");
+
 export const siteConfig = {
   name: "Tour with MrUSB",
   shortName: "MrUSB",
   tagline: "Discover Benin. Feel Africa.",
   description:
     "Curated, immersive tours across Benin Republic and Africa — culture, history, food, nightlife, nature, and the hidden gems that don't make the guidebooks.",
-  url: "https://tourwithmrusb.com",
-  ogImage: "https://tourwithmrusb.com/og.jpg",
+  url: siteUrl,
+  ogImage: `${siteUrl}/og.jpg`,
   locale: "en-US",
   links: {
-    instagram: "https://instagram.com/tourwithmrusb",
-    tiktok: "https://tiktok.com/@tourwithmrusb",
-    youtube: "https://youtube.com/@tourwithmrusb",
-    whatsapp: "https://wa.me/22900000000",
+    instagram: "https://instagram.com/tour_with_mr_usb",
+    tiktok: "https://tiktok.com/@tour_with_mrusb",
+    facebook: "https://www.facebook.com/profile.php?id=61587675134678",
+    whatsapp: "https://wa.me/2290146924370",
+    // TODO: placeholder — real email address pending from the owner
     email: "hello@tourwithmrusb.com",
   },
   contact: {
+    // TODO: placeholder — real email address pending from the owner
     email: "hello@tourwithmrusb.com",
-    phone: "+229 00 00 00 00",
+    phone: "+229 01 46 92 43 70",
     address: "Cotonou, Benin Republic",
   },
   nav: [

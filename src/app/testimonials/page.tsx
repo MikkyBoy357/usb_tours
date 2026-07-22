@@ -50,8 +50,8 @@ export default function TestimonialsPage() {
         description="Every review is from a verified traveler. We don't edit them. We don't filter them."
         crumbs={[{ label: "Home", href: "/" }, { label: "Testimonials" }]}
         image={{
-          src: "/images/1469474968028-56623f02e42e.jpg",
-          alt: "Lake village at dawn",
+          src: "/photos/happy-guests.jpg",
+          alt: "Three happy MrUSB guests on a Benin departure",
         }}
       />
 

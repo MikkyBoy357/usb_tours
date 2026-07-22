@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -40,12 +41,17 @@ export function SiteHeader() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6 lg:h-20 lg:px-8">
         <Link
           href="/"
-          className="group flex items-center gap-2 font-display text-lg tracking-tight"
+          aria-label={`${siteConfig.name} — home`}
+          className="group flex items-center gap-2"
         >
-          <span className="inline-block size-2 rounded-full bg-accent transition-transform duration-300 group-hover:scale-125" />
-          <span>
-            Tour<span className="text-accent">·</span>MrUSB
-          </span>
+          <Image
+            src="/logo.png"
+            alt={siteConfig.name}
+            width={520}
+            height={278}
+            preload
+            className="h-9 w-auto lg:h-11"
+          />
         </Link>
 
         <nav className="hidden items-center gap-8 lg:flex">

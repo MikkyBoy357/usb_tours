@@ -40,8 +40,8 @@ export default function GalleryPage() {
         description="Photography from recent departures. Click any frame to expand."
         crumbs={[{ label: "Home", href: "/" }, { label: "Gallery" }]}
         image={{
-          src: "/images/1469474968028-56623f02e42e.jpg",
-          alt: "Stilt village at sunrise",
+          src: "/photos/voodoo-festival-drummers.jpg",
+          alt: "Drummers in wax-print cloth at the Ouidah voodoo festival",
         }}
       />
       <section className="py-20 lg:py-28">

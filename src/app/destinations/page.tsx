@@ -24,8 +24,8 @@ export default function DestinationsPage() {
         description="From the Atlantic coast to the savannas of the north — meet every place we travel to."
         crumbs={[{ label: "Home", href: "/" }, { label: "Destinations" }]}
         image={{
-          src: "/images/1547036967-23d11aacaee0.jpg",
-          alt: "Savanna landscape",
+          src: "/photos/lake-nokoue-aerial.jpg",
+          alt: "Aerial view of the channels and boats of Lake Nokoué",
         }}
       />
       <section className="py-20 lg:py-28">

@@ -24,53 +24,71 @@ export type Tour = {
   featured?: boolean;
 };
 
-const u = (id: string) => `/images/${id}.jpg`;
+// Real photography from Tour with MrUSB departures across Benin Republic.
+const p = (name: string) => `/photos/${name}.jpg`;
+const CREDIT = "Tour with MrUSB";
 
 export const tours: Tour[] = [
   {
     slug: "ouidah-voodoo-heritage",
     title: "Ouidah: The Voodoo & Heritage Trail",
-    tagline: "Walk the Slave Route. Stand at the Door of No Return.",
+    tagline:
+      "Walk the Slave Route. Meet the pythons. Stand at the Door of No Return.",
     summary:
-      "A profound 4-day journey through Ouidah's sacred groves, voodoo temples, and the historic slave route — ending at the Door of No Return on the Atlantic.",
+      "A profound day-and-night journey through Ouidah's living Vodun culture — the Temple of Pythons, the Sacred Forest of Kpassè, the 4km Slave Route, and the Door of No Return on the Atlantic, timed where possible to the January voodoo festival.",
     destination: "Ouidah",
     country: "Benin Republic",
     durationDays: 4,
-    groupSize: { min: 2, max: 10 },
+    groupSize: { min: 2, max: 12 },
     difficulty: "Easy",
     priceUSD: 720,
     startsFrom: "Cotonou",
     cover: {
-      src: u("1494791368093-85217fbbf8de"),
-      alt: "Coastal palms and ocean spray at Ouidah",
-      credit: "Unsplash",
+      src: p("voodoo-festival-drummers"),
+      alt: "Drummers and dancers in traditional cloth at the Ouidah Vodun festival",
+      credit: CREDIT,
     },
     gallery: [
       {
-        src: u("1547471080-7cc2caa01a7e"),
-        alt: "Sacred forest path",
-        credit: "Unsplash",
+        src: p("python-temple-joy"),
+        alt: "A MrUSB traveller laughing with a royal python at Ouidah's Temple of Pythons",
+        credit: CREDIT,
       },
       {
-        src: u("1523805009345-7448845a9e53"),
-        alt: "Atlantic shoreline",
-        credit: "Unsplash",
+        src: p("voodoo-festival-adepts"),
+        alt: "Vodun adepts in white robes beneath a ceremonial umbrella",
+        credit: CREDIT,
       },
       {
-        src: u("1516026672322-bc52d61a55d5"),
-        alt: "Heritage architecture",
-        credit: "Unsplash",
+        src: p("python-temple-portrait"),
+        alt: "Portrait of a guest with a python draped across his shoulders",
+        credit: CREDIT,
+      },
+      {
+        src: p("voodoo-dancer-sand"),
+        alt: "A dancer wrapped in bright wax-print cloth performing at the festival",
+        credit: CREDIT,
+      },
+      {
+        src: p("ouidah-basilica-group"),
+        alt: "The MrUSB group gathered outside Ouidah's basilica on a Trip to Ouidah departure",
+        credit: CREDIT,
+      },
+      {
+        src: p("heritage-museum-facade"),
+        alt: "The colonial-era heritage museum façade in Ouidah",
+        credit: CREDIT,
       },
     ],
     highlights: [
-      "Python Temple & sacred groves",
-      "Slave Route to the Door of No Return",
-      "Traditional voodoo ceremony (respectful, by invitation)",
-      "Sunset over the Atlantic on a private stretch of beach",
+      "Temple of Pythons — hold a royal python, if you dare",
+      "The Sacred Forest of Kpassè and its Vodun sculptures",
+      "The 4km Slave Route to the Door of No Return on the Atlantic",
+      "The Ouidah Vodun festival (10 January) when dates align",
     ],
     included: [
-      "Private 4WD with driver",
-      "Bilingual cultural guide",
+      "Private, air-conditioned transport with driver",
+      "Bilingual cultural guide (English / French)",
       "3 nights boutique stay",
       "All breakfasts, 2 dinners",
       "All site entries & ceremony fees",
@@ -85,24 +103,25 @@ export const tours: Tour[] = [
         day: 1,
         title: "Arrival & Cotonou",
         description:
-          "Pickup from Cardinal Bernardin Gantin Airport, evening welcome dinner with the team.",
+          "Pickup from Cardinal Bernardin Gantin Airport, welcome dinner with the MrUSB team and an evening briefing.",
       },
       {
         day: 2,
         title: "Cotonou → Ouidah",
         description:
-          "Drive to Ouidah, Python Temple, Sacred Forest of Kpassè, evening reflection.",
+          "Drive to Ouidah, the Temple of Pythons and the Sacred Forest of Kpassè, with time to meet the priests who tend them.",
       },
       {
         day: 3,
         title: "The Slave Route",
         description:
-          "Walk the 4km route from the auction tree to the Door of No Return; afternoon at the Museum of History.",
+          "Walk the route from the auction square past the Tree of Forgetfulness to the Door of No Return; afternoon at the Museum of History.",
       },
       {
         day: 4,
         title: "Beach & Departure",
-        description: "Atlantic sunrise, breakfast, return transfer.",
+        description:
+          "Atlantic sunrise, a slow breakfast, and the return transfer.",
       },
     ],
     coordinates: { lat: 6.3617, lng: 2.0852 },
@@ -111,45 +130,67 @@ export const tours: Tour[] = [
   },
   {
     slug: "ganvie-stilt-village",
-    title: "Ganvié: The Venice of Africa",
-    tagline: "A floating village built on water, frozen in time.",
+    title: "Ganvié & the Lake: Life on the Water",
+    tagline:
+      "The Venice of Africa by pirogue — then the mangroves by kayak, hydrobike and jet ski.",
     summary:
-      "A 2-day immersion into Ganvié — the largest lake village in Africa — by traditional pirogue, with a homestay night and dawn fishing.",
-    destination: "Ganvié, Lake Nokoué",
+      "A two-day immersion in life on Lake Nokoué — a pirogue crossing to the stilt city of Ganvié, then a full day at the Aguégué mangrove water park with kayaks, hydrobikes, a floating course, a natural swimming pool and jet skis.",
+    destination: "Ganvié & Aguégué, Lake Nokoué",
     country: "Benin Republic",
     durationDays: 2,
-    groupSize: { min: 2, max: 8 },
+    groupSize: { min: 2, max: 10 },
     difficulty: "Easy",
     priceUSD: 340,
     startsFrom: "Cotonou",
     cover: {
-      src: u("1469474968028-56623f02e42e"),
-      alt: "Stilt village reflected on calm lake at dawn",
-      credit: "Unsplash",
+      src: p("lake-nokoue-aerial"),
+      alt: "Aerial view of the boat landing and channels of Lake Nokoué",
+      credit: CREDIT,
     },
     gallery: [
       {
-        src: u("1500530855697-b586d89ba3ee"),
-        alt: "Pirogue on the lake",
-        credit: "Unsplash",
+        src: p("mangrove-kayaking"),
+        alt: "Travellers kayaking through the mangroves on Lake Nokoué",
+        credit: CREDIT,
       },
       {
-        src: u("1488646953014-85cb44e25828"),
-        alt: "Sunrise over water",
-        credit: "Unsplash",
+        src: p("hydrobike-mangroves"),
+        alt: "A guest pedalling a hydrobike across the water beside the mangroves",
+        credit: CREDIT,
+      },
+      {
+        src: p("jet-ski-lake"),
+        alt: "A guest riding a jet ski on the open lake",
+        credit: CREDIT,
+      },
+      {
+        src: p("floating-water-park"),
+        alt: "The inflatable floating water park at the Aguégué mangrove base",
+        credit: CREDIT,
+      },
+      {
+        src: p("water-bikes-friends"),
+        alt: "Friends racing brightly coloured water bikes on the lake",
+        credit: CREDIT,
+      },
+      {
+        src: p("aguegue-signpost"),
+        alt: "The Baie de Aguégué signpost pointing to the natural pool, adrénaline and hydrobikes",
+        credit: CREDIT,
       },
     ],
     highlights: [
-      "Traditional pirogue ride across Lake Nokoué",
-      "Floating market & stilt mosque",
-      "Homestay with a local family",
-      "Dawn fishing with the village fleet",
+      "Traditional pirogue across Lake Nokoué to Ganvié",
+      "The floating market and stilt architecture of the Venice of Africa",
+      "Kayaks, hydrobikes and a floating obstacle course in the mangroves",
+      "A natural swimming pool and jet skis at the Aguégué base",
     ],
     included: [
-      "Boat transfers",
+      "Boat and pirogue transfers",
       "Local guide & translator",
-      "1-night homestay",
-      "All meals during the stay",
+      "Water-park entry and all activities listed",
+      "Life jackets and safety briefing",
+      "Lunch on the water",
     ],
     notIncluded: ["Transfers from outside Cotonou", "Tips"],
     itinerary: [
@@ -157,25 +198,26 @@ export const tours: Tour[] = [
         day: 1,
         title: "Cotonou → Ganvié",
         description:
-          "Morning pirogue to the village, market visit, homestay welcome, evening with local musicians.",
+          "Morning pirogue to the stilt village, floating market visit, and an afternoon learning how a city lives entirely on water.",
       },
       {
         day: 2,
-        title: "Dawn Fishing & Return",
+        title: "The Aguégué Mangroves",
         description:
-          "Sunrise with the fishing fleet, breakfast, return by water.",
+          "A full day of kayaks, hydrobikes, the floating course, the natural pool and jet skis, before the return across the lake.",
       },
     ],
     coordinates: { lat: 6.4667, lng: 2.4167 },
-    tags: ["nature", "village-life", "photography"],
+    tags: ["nature", "village-life", "adventure"],
     featured: true,
   },
   {
     slug: "pendjari-safari",
-    title: "Pendjari: West Africa's Last Wild Heart",
-    tagline: "Lions, elephants, and the savanna without the crowds.",
+    title: "The Road North: Pendjari & the Atacora",
+    tagline:
+      "West Africa's last wild heart — savanna, elephants, and the road that gets you there.",
     summary:
-      "5 days of authentic safari in Pendjari National Park — one of the last strongholds of the West African lion and the only place to truly see Africa as it once was.",
+      "Five days north through the Atacora to Pendjari National Park — one of the last strongholds of the West African lion — with the long, beautiful overland journey that most travellers never make.",
     destination: "Pendjari National Park",
     country: "Benin Republic",
     durationDays: 5,
@@ -184,32 +226,32 @@ export const tours: Tour[] = [
     priceUSD: 1480,
     startsFrom: "Cotonou",
     cover: {
-      src: u("1547036967-23d11aacaee0"),
-      alt: "Savanna at golden hour with acacia silhouettes",
-      credit: "Unsplash",
+      src: p("northern-benin-roundabout"),
+      alt: "Aerial view of a monument roundabout in a northern Benin town on the road to Pendjari",
+      credit: CREDIT,
     },
     gallery: [
       {
-        src: u("1535941339077-2dd1c7963098"),
-        alt: "Elephant herd at waterhole",
-        credit: "Unsplash",
+        src: p("benin-town-aerial"),
+        alt: "A northern Benin town from the air on the overland route north",
+        credit: CREDIT,
       },
       {
-        src: u("1456926631375-92c8ce872def"),
-        alt: "Lone acacia tree",
-        credit: "Unsplash",
+        src: p("tour-bus-arrival"),
+        alt: "The MrUSB group arriving by coach on a northern departure",
+        credit: CREDIT,
       },
       {
-        src: u("1493514789931-586cb221d7a7"),
-        alt: "Lion at rest",
-        credit: "Unsplash",
+        src: p("tour-group-photo"),
+        alt: "The full MrUSB travelling group on a multi-day departure",
+        credit: CREDIT,
       },
     ],
     highlights: [
-      "Game drives at dawn and dusk",
-      "Birdwatching at the Pendjari River",
-      "Stay at an eco-lodge inside the park",
-      "Visit a Tata Somba fortified village on the way",
+      "Game drives at dawn and dusk in Pendjari National Park",
+      "The scenic overland journey through the Atacora highlands",
+      "Birdwatching along the Pendjari River",
+      "A stay at an eco-lodge on the edge of the park",
     ],
     included: [
       "All in-park transfers in open 4WD",
@@ -225,39 +267,39 @@ export const tours: Tour[] = [
       {
         day: 1,
         title: "Cotonou → Natitingou",
-        description: "Flight or scenic drive north.",
+        description:
+          "Flight or scenic overland drive north through the Atacora.",
       },
       {
         day: 2,
-        title: "Tata Somba & Park Entry",
-        description: "Visit fortified clay villages; afternoon game drive.",
+        title: "Atacora & Park Entry",
+        description: "Explore the highland country; afternoon game drive.",
       },
       {
         day: 3,
         title: "Full Day Safari",
-        description: "Dawn and dusk drives, midday at the lodge.",
+        description: "Dawn and dusk drives, midday rest at the lodge.",
       },
       {
         day: 4,
         title: "River & Birds",
-        description: "Pendjari River boat segment, birdwatching.",
+        description: "Pendjari River segment and birdwatching.",
       },
       {
         day: 5,
         title: "Return",
-        description: "Final drive at dawn; return south.",
+        description: "A final drive at dawn, then the journey south.",
       },
     ],
     coordinates: { lat: 11.3833, lng: 1.4167 },
     tags: ["safari", "wildlife", "nature"],
-    featured: true,
   },
   {
     slug: "cotonou-nightlife-food",
     title: "Cotonou After Dark",
-    tagline: "Grilled fish, palm wine, and the rhythms of the coast.",
+    tagline: "Markets, monuments, grilled fish and the rhythms of the coast.",
     summary:
-      "A 3-night urban deep-dive into Cotonou's food and nightlife — street kitchens, secret bars, live afrobeat, and the markets that never quite sleep.",
+      "A three-night urban deep-dive into Cotonou — the Amazon of Dahomey monument, the endless aisles of Dantokpa and Ganhi markets, street kitchens, live afrobeat, and the lagoon after sunset.",
     destination: "Cotonou",
     country: "Benin Republic",
     durationDays: 3,
@@ -266,27 +308,32 @@ export const tours: Tour[] = [
     priceUSD: 480,
     startsFrom: "Cotonou",
     cover: {
-      src: u("1543007630-9710e4a00a20"),
-      alt: "City lights and street market at night",
-      credit: "Unsplash",
+      src: p("tall-ship-night"),
+      alt: "A tall ship lit up on the water off Cotonou at night",
+      credit: CREDIT,
     },
     gallery: [
       {
-        src: u("1517248135467-4c7edcad34c4"),
-        alt: "Live music venue",
-        credit: "Unsplash",
+        src: p("marche-ganhi-cotonou"),
+        alt: "A guest posing at the entrance to Marché Ganhi in Cotonou",
+        credit: CREDIT,
       },
       {
-        src: u("1504674900247-0877df9cc836"),
-        alt: "Grilled food on coals",
-        credit: "Unsplash",
+        src: p("amazon-statue-cotonou"),
+        alt: "The Amazon of Dahomey monument rising over Cotonou",
+        credit: CREDIT,
+      },
+      {
+        src: p("cococodji-market"),
+        alt: "The busy Cococodji market of Cotonou",
+        credit: CREDIT,
       },
     ],
     highlights: [
-      "Dantokpa Market food walk",
+      "The Amazon of Dahomey — Africa's tallest statue",
+      "Dantokpa & Ganhi markets, on foot and by night",
       "Live afrobeat at a local club",
-      "Grilled barracuda on the beach",
-      "Sunset cruise on the lagoon",
+      "Grilled fish and a sunset cruise on the lagoon",
     ],
     included: [
       "3 nights boutique hotel",
@@ -299,18 +346,18 @@ export const tours: Tour[] = [
         day: 1,
         title: "Arrival & Food Walk",
         description:
-          "Dantokpa Market by night, street kitchens, welcome drinks.",
+          "Dantokpa Market by night, street kitchens and welcome drinks.",
       },
       {
         day: 2,
-        title: "Beach & Lagoon",
+        title: "Monuments & Lagoon",
         description:
-          "Morning at Fidjrosse Beach, afternoon lagoon cruise, evening live music.",
+          "The Amazon monument and Ganhi market by day, a lagoon cruise, then live music.",
       },
       {
         day: 3,
         title: "Markets & Departure",
-        description: "Slow morning, art market, transfer.",
+        description: "A slow morning, the art market, and the transfer.",
       },
     ],
     coordinates: { lat: 6.3654, lng: 2.4183 },
@@ -322,7 +369,7 @@ export const tours: Tour[] = [
     tagline:
       "Royal palaces, warrior queens, and a kingdom that defied empires.",
     summary:
-      "2 days inside the UNESCO-listed Royal Palaces of Abomey — the political and spiritual heart of the legendary Dahomey kingdom.",
+      "Two days inside the story of Dahomey — the UNESCO-listed Royal Palaces of Abomey, the legend of the Agojie women warriors, and the bronze monuments that keep their memory alive.",
     destination: "Abomey",
     country: "Benin Republic",
     durationDays: 2,
@@ -331,22 +378,32 @@ export const tours: Tour[] = [
     priceUSD: 290,
     startsFrom: "Cotonou",
     cover: {
-      src: u("1517331156700-3c241d2b4d83"),
-      alt: "Earthen palace walls and ceremonial entrance",
-      credit: "Unsplash",
+      src: p("amazon-statue-cotonou"),
+      alt: "The Amazon of Dahomey statue — a monument to the Agojie women warriors",
+      credit: CREDIT,
     },
     gallery: [
       {
-        src: u("1538935732373-f7a495fea3f6"),
-        alt: "Royal artifacts",
-        credit: "Unsplash",
+        src: p("behanzin-statue"),
+        alt: "The equestrian statue of a Dahomey king",
+        credit: CREDIT,
+      },
+      {
+        src: p("amazon-statue-guests"),
+        alt: "MrUSB travellers posing at the foot of the Amazon monument",
+        credit: CREDIT,
+      },
+      {
+        src: p("museum-art-portrait"),
+        alt: "A guest beside a painted mural inside a Beninese museum",
+        credit: CREDIT,
       },
     ],
     highlights: [
-      "Royal Palaces (UNESCO)",
-      "Historical Museum of Abomey",
-      "Story of the Mino — the women warriors",
-      "Bas-relief earthworks tour",
+      "The Royal Palaces of Abomey (UNESCO World Heritage)",
+      "The Historical Museum and its royal bas-reliefs",
+      "The story of the Agojie — the women warriors of Dahomey",
+      "Bronze monuments to the kings and queens of the kingdom",
     ],
     included: [
       "Private transport",
@@ -360,12 +417,13 @@ export const tours: Tour[] = [
         day: 1,
         title: "Cotonou → Abomey",
         description:
-          "Drive north, palace tour, evening with a royal historian.",
+          "Drive north, tour the royal palaces, and spend the evening with a royal historian.",
       },
       {
         day: 2,
         title: "Museum & Return",
-        description: "Museum, bas-reliefs, return south by afternoon.",
+        description:
+          "The museum and bas-reliefs, then the return south by afternoon.",
       },
     ],
     coordinates: { lat: 7.1856, lng: 1.9914 },
@@ -376,7 +434,7 @@ export const tours: Tour[] = [
     title: "The Grand Tour of Benin",
     tagline: "10 days. South to north. Everything that matters.",
     summary:
-      "The signature MrUSB experience — Cotonou, Ouidah, Ganvié, Abomey, Tata Somba, and Pendjari, woven into a single unforgettable arc.",
+      "The signature MrUSB experience — Cotonou, Ouidah, Ganvié, Abomey, the Atacora and Pendjari, woven into a single unforgettable arc from the Atlantic coast to the wild north.",
     destination: "Benin Republic (South → North)",
     country: "Benin Republic",
     durationDays: 10,
@@ -385,27 +443,36 @@ export const tours: Tour[] = [
     priceUSD: 2850,
     startsFrom: "Cotonou",
     cover: {
-      src: u("1504609813442-a8924e83f76e"),
-      alt: "Cinematic African landscape at golden hour",
-      credit: "Unsplash",
+      src: p("tour-group-photo"),
+      alt: "The MrUSB travelling group together on a Grand Tour departure",
+      credit: CREDIT,
     },
     gallery: [
       {
-        src: u("1504609813442-a8924e83f76e"),
-        alt: "Landscape",
-        credit: "Unsplash",
+        src: p("amazon-statue-cotonou"),
+        alt: "The Amazon of Dahomey monument in Cotonou",
+        credit: CREDIT,
       },
-      { src: u("1547036967-23d11aacaee0"), alt: "Savanna", credit: "Unsplash" },
       {
-        src: u("1469474968028-56623f02e42e"),
-        alt: "Lake village",
-        credit: "Unsplash",
+        src: p("voodoo-festival-adepts"),
+        alt: "Vodun adepts in white at the Ouidah festival",
+        credit: CREDIT,
+      },
+      {
+        src: p("mangrove-kayaking"),
+        alt: "Kayaking through the mangroves of Lake Nokoué",
+        credit: CREDIT,
+      },
+      {
+        src: p("northern-benin-roundabout"),
+        alt: "A northern Benin town from the air on the road to Pendjari",
+        credit: CREDIT,
       },
     ],
     highlights: [
       "Every signature destination in one arc",
       "All transport handled, all stays vetted",
-      "Private MrUSB host throughout",
+      "A private MrUSB host throughout",
       "Small group, real depth",
     ],
     included: [
@@ -421,35 +488,47 @@ export const tours: Tour[] = [
         title: "Cotonou",
         description: "Arrival, welcome dinner, briefing.",
       },
-      { day: 2, title: "Ganvié", description: "Pirogue & homestay night." },
+      {
+        day: 2,
+        title: "Ganvié & the Lake",
+        description: "Pirogue, stilt village and the mangroves.",
+      },
       {
         day: 3,
         title: "Ouidah",
-        description: "Slave Route & Door of No Return.",
+        description: "Temple of Pythons, Slave Route & the Door of No Return.",
       },
       {
         day: 4,
         title: "Ouidah → Abomey",
-        description: "Royal palaces & history.",
+        description: "Royal palaces & the story of Dahomey.",
       },
       {
         day: 5,
         title: "Abomey → Natitingou",
-        description: "Long scenic drive north.",
+        description: "The long scenic drive north through the Atacora.",
       },
-      { day: 6, title: "Tata Somba", description: "Fortified villages." },
+      {
+        day: 6,
+        title: "Atacora",
+        description: "Highland country and its villages.",
+      },
       {
         day: 7,
         title: "Pendjari",
-        description: "Park entry, first game drive.",
+        description: "Park entry and the first game drive.",
       },
-      { day: 8, title: "Pendjari", description: "Full safari day." },
+      { day: 8, title: "Pendjari", description: "A full safari day." },
       {
         day: 9,
         title: "Pendjari → South",
         description: "Return flight to Cotonou.",
       },
-      { day: 10, title: "Departure", description: "Slow morning, transfer." },
+      {
+        day: 10,
+        title: "Departure",
+        description: "A slow morning and the transfer.",
+      },
     ],
     coordinates: { lat: 9.3077, lng: 2.3158 },
     tags: ["signature", "comprehensive", "premium"],

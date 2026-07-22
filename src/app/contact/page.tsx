@@ -51,8 +51,8 @@ export default function ContactPage() {
         description="Tell us about the trip you have in mind. We reply within 24 hours — and we don't share your details with anyone."
         crumbs={[{ label: "Home", href: "/" }, { label: "Contact" }]}
         image={{
-          src: "/images/1543007630-9710e4a00a20.jpg",
-          alt: "Cotonou by night",
+          src: "/photos/amazon-statue-cotonou.jpg",
+          alt: "The Amazon of Dahomey monument rising over Cotonou",
         }}
       />
 

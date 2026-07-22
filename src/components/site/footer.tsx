@@ -1,10 +1,11 @@
 import { Mail } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { NewsletterForm } from "@/components/forms/newsletter-form";
 import {
+  FacebookIcon,
   InstagramIcon,
   TikTokIcon,
-  YoutubeIcon,
 } from "@/components/icons/social";
 import { Container } from "@/components/site/container";
 import { siteConfig } from "@/lib/site";
@@ -15,12 +16,14 @@ export function SiteFooter() {
       <Container>
         <div className="grid gap-12 py-20 lg:grid-cols-12">
           <div className="lg:col-span-5">
-            <Link
-              href="/"
-              className="inline-flex items-center gap-2 font-display text-2xl tracking-tight text-white"
-            >
-              <span className="inline-block size-2 rounded-full bg-accent" />
-              Tour<span className="text-accent">·</span>MrUSB
+            <Link href="/" aria-label={`${siteConfig.name} — home`}>
+              <Image
+                src="/logo.png"
+                alt={siteConfig.name}
+                width={520}
+                height={278}
+                className="h-12 w-auto"
+              />
             </Link>
             <p className="mt-5 max-w-md text-pretty text-sm leading-relaxed text-sand-200/80">
               {siteConfig.description}
@@ -71,13 +74,13 @@ export function SiteFooter() {
               <InstagramIcon className="size-4" />
             </a>
             <a
-              href={siteConfig.links.youtube}
+              href={siteConfig.links.facebook}
               target="_blank"
               rel="noreferrer"
-              aria-label="YouTube"
+              aria-label="Facebook"
               className="transition-colors hover:text-accent"
             >
-              <YoutubeIcon className="size-4" />
+              <FacebookIcon className="size-4" />
             </a>
             <a
               href={siteConfig.links.tiktok}

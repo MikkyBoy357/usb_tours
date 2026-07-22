@@ -27,8 +27,8 @@ export default function JournalPage() {
         description="Written by the team and our travelers. Travel guides, photography, culture, and the long-form pieces we promised the algorithm would love."
         crumbs={[{ label: "Home", href: "/" }, { label: "Journal" }]}
         image={{
-          src: "/images/1547471080-7cc2caa01a7e.jpg",
-          alt: "Sacred forest path",
+          src: "/photos/heritage-museum-facade.jpg",
+          alt: "The colonial-era heritage museum façade in Ouidah",
         }}
       />
 

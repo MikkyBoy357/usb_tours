@@ -21,8 +21,8 @@ export default function ToursPage() {
         description="Curated by people who grew up here. Small groups. Local partners. Stays vetted in person."
         crumbs={[{ label: "Home", href: "/" }, { label: "Tours" }]}
         image={{
-          src: "/images/1504609813442-a8924e83f76e.jpg",
-          alt: "Cinematic African landscape at golden hour",
+          src: "/photos/water-bikes-friends.jpg",
+          alt: "MrUSB travellers racing water bikes across Lake Nokoué",
         }}
       />
       <section className="py-20 lg:py-28">

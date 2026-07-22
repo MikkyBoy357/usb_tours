@@ -19,12 +19,12 @@ export function Hero() {
     >
       <motion.div style={{ y }} className="absolute inset-0">
         <Image
-          src="/images/1547036967-23d11aacaee0.jpg"
-          alt="Cinematic African savanna at golden hour"
+          src="/photos/voodoo-festival-adepts.jpg"
+          alt="Vodun adepts in white robes beneath a ceremonial umbrella at the Ouidah voodoo festival"
           fill
-          priority
+          preload
           sizes="100vw"
-          className="object-cover"
+          className="object-cover object-[center_30%]"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/80" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(0,0,0,0.5)_100%)]" />

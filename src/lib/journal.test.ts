@@ -68,7 +68,7 @@ describe("journal posts on disk", () => {
     for (const p of posts) {
       expect(p.title).toBeTruthy();
       expect(p.excerpt).toBeTruthy();
-      expect(p.cover).toMatch(/^\/images\/.+\.jpg$/);
+      expect(p.cover).toMatch(/^\/photos\/.+\.jpg$/);
       expect(p.author.name).toBeTruthy();
       expect(p.readingTime).toMatch(/\d+\s*min read/);
     }

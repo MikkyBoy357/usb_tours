@@ -7,7 +7,7 @@ export function CtaBand() {
     <section className="relative overflow-hidden">
       <div className="absolute inset-0">
         <Image
-          src="/images/1504609813442-a8924e83f76e.jpg"
+          src="/photos/mangrove-kayaking.jpg"
           alt=""
           fill
           sizes="100vw"

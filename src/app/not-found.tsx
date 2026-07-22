@@ -12,7 +12,7 @@ export default function NotFound() {
     <>
       <section className="relative isolate flex min-h-[80svh] items-center overflow-hidden bg-ink-950 text-white">
         <Image
-          src="/images/1494791368093-85217fbbf8de.jpg"
+          src="/photos/mangrove-splash.jpg"
           alt=""
           fill
           priority
