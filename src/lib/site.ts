@@ -23,12 +23,10 @@ export const siteConfig = {
     tiktok: "https://tiktok.com/@tour_with_mrusb",
     facebook: "https://www.facebook.com/profile.php?id=61587675134678",
     whatsapp: "https://wa.me/2290146924370",
-    // TODO: placeholder — real email address pending from the owner
-    email: "hello@tourwithmrusb.com",
+    email: "tourwithmrusb@gmail.com",
   },
   contact: {
-    // TODO: placeholder — real email address pending from the owner
-    email: "hello@tourwithmrusb.com",
+    email: "tourwithmrusb@gmail.com",
     phone: "+229 01 46 92 43 70",
     address: "Cotonou, Benin Republic",
   },
