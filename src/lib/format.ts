@@ -1,9 +1,8 @@
-export function formatUSD(amount: number) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
+export function formatFCFA(amount: number) {
+  const value = new Intl.NumberFormat("en-US", {
     maximumFractionDigits: 0,
   }).format(amount);
+  return `${value} FCFA`;
 }
 
 export function formatDuration(days: number) {

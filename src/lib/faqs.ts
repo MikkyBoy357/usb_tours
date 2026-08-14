@@ -46,7 +46,7 @@ export const faqs: FaqGroup[] = [
       },
       {
         q: "Can I do a private or custom trip?",
-        a: "Yes — most of what we run is custom-finished. Tell us how long you have, what you care about, and any constraints, and we'll build the trip around you. Custom trips start from US$250 / day / traveler.",
+        a: "Yes — most of what we run is custom-finished. Tell us how long you have, what you care about, and any constraints, and we'll build the trip around you. Custom trips start from 150,000 FCFA / day / traveler.",
       },
     ],
   },
@@ -63,7 +63,7 @@ export const faqs: FaqGroup[] = [
       },
       {
         q: "Do I need to tip?",
-        a: "Tipping is appreciated but not expected. If you'd like to tip your guide or driver, US$10–15 per day per traveler is generous. We pay our team above market regardless.",
+        a: "Tipping is appreciated but not expected. If you'd like to tip your guide or driver, 6,000–9,000 FCFA per day per traveler is generous. We pay our team above market regardless.",
       },
     ],
   },

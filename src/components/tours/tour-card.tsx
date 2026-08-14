@@ -1,7 +1,7 @@
 import { ArrowUpRight, Clock, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { formatDuration, formatUSD } from "@/lib/format";
+import { formatDuration, formatFCFA } from "@/lib/format";
 import type { Tour } from "@/lib/tours";
 
 type Props = {
@@ -51,8 +51,8 @@ export function TourCard({ tour, priority }: Props) {
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="font-display text-lg">
-            {formatUSD(tour.priceUSD)}
+          <span className="whitespace-nowrap font-display text-base">
+            {formatFCFA(tour.priceFCFA)}
           </span>
           <span
             className="inline-flex size-8 items-center justify-center rounded-full bg-foreground text-background transition-transform duration-300 group-hover:rotate-45"

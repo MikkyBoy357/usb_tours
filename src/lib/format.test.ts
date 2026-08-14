@@ -1,14 +1,14 @@
 import { describe, expect, it } from "vitest";
-import { formatDuration, formatUSD } from "./format";
+import { formatDuration, formatFCFA } from "./format";
 
-describe("formatUSD", () => {
-  it("formats whole dollars with no decimals", () => {
-    expect(formatUSD(720)).toBe("$720");
-    expect(formatUSD(2850)).toBe("$2,850");
+describe("formatFCFA", () => {
+  it("formats whole francs with no decimals", () => {
+    expect(formatFCFA(70000)).toBe("70,000 FCFA");
+    expect(formatFCFA(1710000)).toBe("1,710,000 FCFA");
   });
   it("rounds fractional values", () => {
-    expect(formatUSD(99.4)).toBe("$99");
-    expect(formatUSD(99.6)).toBe("$100");
+    expect(formatFCFA(99.4)).toBe("99 FCFA");
+    expect(formatFCFA(99.6)).toBe("100 FCFA");
   });
 });
 

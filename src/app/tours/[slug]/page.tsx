@@ -11,7 +11,7 @@ import { Itinerary } from "@/components/tours/itinerary";
 import { TourCard } from "@/components/tours/tour-card";
 import { TourGallery } from "@/components/tours/tour-gallery";
 import { TourMap } from "@/components/tours/tour-map";
-import { formatDuration, formatUSD } from "@/lib/format";
+import { formatDuration, formatFCFA } from "@/lib/format";
 import { siteConfig } from "@/lib/site";
 import { getRelatedTours, getTour, tours } from "@/lib/tours";
 
@@ -66,8 +66,8 @@ export default async function TourDetailPage(
     },
     offers: {
       "@type": "Offer",
-      price: tour.priceUSD,
-      priceCurrency: "USD",
+      price: tour.priceFCFA,
+      priceCurrency: "XOF",
       availability: "https://schema.org/InStock",
     },
     touristType: tour.tags,
@@ -195,11 +195,11 @@ export default async function TourDetailPage(
                       <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
                         From
                       </p>
-                      <p className="font-display text-4xl tracking-tight">
-                        {formatUSD(tour.priceUSD)}
+                      <p className="font-display text-3xl tracking-tight">
+                        {formatFCFA(tour.priceFCFA)}
                       </p>
                       <p className="text-xs text-muted-foreground">
-                        per traveler · all-inclusive on-the-ground
+                        per traveler · see what&rsquo;s included below
                       </p>
                     </div>
                     <span className="rounded-full bg-accent/15 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-accent">
