@@ -32,6 +32,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${siteConfig.url}/contact`, lastModified: now, priority: 0.6 },
     { url: `${siteConfig.url}/faq`, lastModified: now, priority: 0.4 },
     { url: `${siteConfig.url}/testimonials`, lastModified: now, priority: 0.4 },
+    { url: `${siteConfig.url}/privacy`, lastModified: now, priority: 0.2 },
+    { url: `${siteConfig.url}/terms`, lastModified: now, priority: 0.2 },
   ];
 
   const tourPages = tours.map((t) => ({

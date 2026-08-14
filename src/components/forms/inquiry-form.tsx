@@ -1,12 +1,14 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CheckCircle2, Loader2 } from "lucide-react";
+import { CheckCircle2, Loader2, Mail } from "lucide-react";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { submitInquiry } from "@/app/actions/inquiries";
 import { Button } from "@/components/ui/button";
+import { buildInquiryMailto, buildInquiryWhatsApp } from "@/lib/inquiry-mailto";
 import { type InquiryInput, inquirySchema } from "@/lib/inquiry-schema";
+import { siteConfig } from "@/lib/site";
 import { tours } from "@/lib/tours";
 import { cn } from "@/lib/utils";
 
@@ -17,13 +19,12 @@ type Props = {
 
 export function InquiryForm({ defaultTourSlug, layout = "card" }: Props) {
   const [pending, startTransition] = useTransition();
-  const [done, setDone] = useState(false);
-  const [topError, setTopError] = useState<string | null>(null);
-
+  const [done, setDone] = useState<{ mailto: string; whatsapp: string } | null>(
+    null,
+  );
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors },
   } = useForm<InquiryInput>({
     resolver: zodResolver(inquirySchema),
@@ -31,18 +32,20 @@ export function InquiryForm({ defaultTourSlug, layout = "card" }: Props) {
   });
 
   function onSubmit(values: InquiryInput) {
-    setTopError(null);
+    // Hand off to the mail client while we're still inside the click gesture —
+    // browsers block protocol launches that happen after an await.
+    const mailto = buildInquiryMailto(values);
+    const whatsapp = buildInquiryWhatsApp(values);
+    window.location.href = mailto;
+    setDone({ mailto, whatsapp });
+
+    // Best-effort server record. It only persists once Supabase/Resend are
+    // configured, and it must never hold up or undo the handoff above.
     startTransition(async () => {
-      const res = await submitInquiry(values);
-      if (res.ok) {
-        setDone(true);
-        return;
-      }
-      setTopError(res.error);
-      if (res.fieldErrors) {
-        for (const [k, msg] of Object.entries(res.fieldErrors)) {
-          setError(k as keyof InquiryInput, { message: msg });
-        }
+      try {
+        await submitInquiry(values);
+      } catch {
+        // The traveler already has the message open; nothing to recover.
       }
     });
   }
@@ -58,11 +61,39 @@ export function InquiryForm({ defaultTourSlug, layout = "card" }: Props) {
         role="status"
       >
         <CheckCircle2 className="size-10 text-accent" strokeWidth={1.4} />
-        <h3 className="font-display text-2xl">Got it. Thank you.</h3>
+        <h3 className="font-display text-2xl">One last step.</h3>
         <p className="max-w-md text-pretty text-sm text-muted-foreground">
-          We'll write back inside 24 hours with a draft itinerary tailored to
-          what you've described.
+          Your mail app should have opened with the message written and ready.
+          Press send there and it reaches us — we'll reply within 24 hours.
         </p>
+        <div className="mt-2 flex flex-col items-center gap-2">
+          <a
+            href={done.mailto}
+            className="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-medium text-accent-foreground transition-colors hover:bg-accent/90"
+          >
+            <Mail className="size-4" />
+            Open my mail app again
+          </a>
+          <p className="text-xs text-muted-foreground">
+            Nothing opened? Message us on{" "}
+            <a
+              href={done.whatsapp}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-2 hover:text-foreground"
+            >
+              WhatsApp
+            </a>{" "}
+            or write to{" "}
+            <a
+              href={`mailto:${siteConfig.contact.email}`}
+              className="underline underline-offset-2 hover:text-foreground"
+            >
+              {siteConfig.contact.email}
+            </a>
+            .
+          </p>
+        </div>
       </div>
     );
   }
@@ -174,15 +205,10 @@ export function InquiryForm({ defaultTourSlug, layout = "card" }: Props) {
         />
       </Field>
 
-      {topError && (
-        <p role="alert" className="text-sm text-destructive">
-          {topError}
-        </p>
-      )}
-
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-xs text-muted-foreground">
-          We'll reply within 24 hours. No spam, ever.
+        <p className="max-w-xs text-xs text-muted-foreground">
+          Opens your mail app with everything filled in — you just press send.
+          We reply within 24 hours.
         </p>
         <Button
           type="submit"
@@ -192,10 +218,13 @@ export function InquiryForm({ defaultTourSlug, layout = "card" }: Props) {
           {pending ? (
             <>
               <Loader2 className="size-4 animate-spin" />
-              Sending…
+              Preparing…
             </>
           ) : (
-            "Send inquiry"
+            <>
+              <Mail className="size-4" />
+              Send inquiry
+            </>
           )}
         </Button>
       </div>
