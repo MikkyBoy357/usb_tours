@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
+import { PlanTripButton } from "@/components/site/plan-trip-button";
 import { siteConfig } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -81,13 +81,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <Button
-            asChild
-            size="sm"
-            className="hidden lg:inline-flex bg-accent text-accent-foreground hover:bg-accent/90"
-          >
-            <Link href="/contact">Plan my trip</Link>
-          </Button>
+          <PlanTripButton className="hidden lg:inline-flex" />
           <button
             type="button"
             aria-label={open ? "Close menu" : "Open menu"}
@@ -119,12 +113,7 @@ export function SiteHeader() {
                   {item.label}
                 </Link>
               ))}
-              <Button
-                asChild
-                className="mt-2 bg-accent text-accent-foreground hover:bg-accent/90"
-              >
-                <Link href="/contact">Plan my trip</Link>
-              </Button>
+              <PlanTripButton full className="mt-3" />
             </nav>
           </motion.div>
         )}
