@@ -11,6 +11,11 @@ import { testimonials } from "@/lib/testimonials";
 
 export function Testimonials() {
   const [i, setI] = useState(0);
+
+  // Nothing to show until real travelers are quoted — render no section at all
+  // rather than an empty carousel.
+  if (testimonials.length === 0) return null;
+
   const t = testimonials[i];
 
   return (

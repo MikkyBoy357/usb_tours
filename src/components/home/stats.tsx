@@ -3,14 +3,7 @@
 import { animate, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
-type Stat = { value: number; suffix?: string; label: string };
-
-const stats: Stat[] = [
-  { value: 1200, suffix: "+", label: "Travelers welcomed" },
-  { value: 14, label: "Tour experiences" },
-  { value: 6, label: "Countries covered" },
-  { value: 98, suffix: "%", label: "Would book again" },
-];
+import type { SiteStat } from "@/lib/site-stats";
 
 function Counter({ to, suffix }: { to: number; suffix?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
@@ -35,7 +28,9 @@ function Counter({ to, suffix }: { to: number; suffix?: string }) {
   );
 }
 
-export function Stats() {
+// Figures are counted server-side and passed in, so this stays a dumb renderer
+// and the numbers can't be hardcoded back out of sync with the catalogue.
+export function Stats({ stats }: { stats: SiteStat[] }) {
   return (
     <section className="border-y border-border/60 bg-secondary/40">
       <div className="mx-auto grid max-w-7xl grid-cols-2 gap-y-12 px-6 py-16 sm:grid-cols-4 lg:px-8 lg:py-20">

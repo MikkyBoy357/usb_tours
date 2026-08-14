@@ -8,6 +8,7 @@ import { Stats } from "@/components/home/stats";
 import { Testimonials } from "@/components/home/testimonials";
 import { WhyUs } from "@/components/home/why-us";
 import { OrganizationJsonLd, WebsiteJsonLd } from "@/components/seo/json-ld";
+import { getSiteStats } from "@/lib/site-stats";
 
 export default function HomePage() {
   return (
@@ -15,7 +16,7 @@ export default function HomePage() {
       <OrganizationJsonLd />
       <WebsiteJsonLd />
       <Hero />
-      <Stats />
+      <Stats stats={getSiteStats()} />
       <FeaturedTours />
       <WhyUs />
       <ExploreBenin />
