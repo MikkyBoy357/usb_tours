@@ -1,10 +1,76 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
-import Image from "next/image";
+import Image, { getImageProps } from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { cn } from "@/lib/utils";
+
+/**
+ * The lead backdrop is art-directed: a landscape shot for desktop and a
+ * portrait shot for phones held upright. A <picture> lets the browser fetch
+ * only the one that matches, so it can be prioritised without loading both.
+ */
+const PORTRAIT_PHONE = "(max-width: 767px) and (orientation: portrait)";
+const leadAlt =
+  "Two smiling travellers holding Tour with MrUSB tote bags in front of large metal sculptures";
+const leadCommon = { alt: leadAlt, fill: true, sizes: "100vw" } as const;
+const {
+  props: { srcSet: leadPortraitSrcSet },
+} = getImageProps({ ...leadCommon, src: "/photos/hero-guests-portrait.jpg" });
+const {
+  props: { srcSet: leadLandscapeSrcSet, ...leadImgProps },
+} = getImageProps({
+  ...leadCommon,
+  src: "/photos/hero-guests-landscape.jpg",
+  fetchPriority: "high",
+  loading: "eager",
+});
+
+/**
+ * Backdrops cycled behind the lead slide. They are decorative, so they carry
+ * no alt text.
+ */
+const slides = [
+  {
+    src: "/photos/water-bikes-friends.jpg",
+    alt: "Two friends riding a water bike along the green mangroves of Lake Nokoué",
+    // Biased left of centre so the narrow phone crop keeps both riders in frame.
+    position: "object-[42%_40%]",
+  },
+  {
+    src: "/photos/voodoo-festival-adepts.jpg",
+    alt: "Vodun adepts in white robes beneath a ceremonial umbrella at the Ouidah voodoo festival",
+    position: "object-[center_30%]",
+  },
+  {
+    src: "/photos/lake-nokoue-aerial.jpg",
+    alt: "Aerial view of the green channels, reed banks and boat landing of Lake Nokoué",
+    position: "object-[center_45%]",
+  },
+  {
+    src: "/photos/amazon-statue-cotonou.jpg",
+    alt: "The Amazon statue standing over Cotonou",
+    position: "object-[center_10%]",
+  },
+  {
+    src: "/photos/northern-benin-roundabout.jpg",
+    alt: "The tusked monument on the roundabout at the gateway to northern Benin",
+    position: "object-[center_45%]",
+  },
+];
+
+/** The lead slide plus the rotating backdrops. */
+const SLIDE_COUNT = slides.length + 1;
+const SLIDE_MS = 6500;
+/** Grace period before the other backdrops mount, so they don't race the LCP image. */
+const FIRST_PAINT_MS = 1200;
 
 export function Hero() {
   const ref = useRef<HTMLDivElement>(null);
@@ -12,21 +78,61 @@ export function Hero() {
   const y = useTransform(scrollY, [0, 600], [0, 120]);
   const opacity = useTransform(scrollY, [0, 400], [1, 0]);
 
+  const reduceMotion = useReducedMotion();
+  const [index, setIndex] = useState(0);
+  const [restMounted, setRestMounted] = useState(false);
+
+  useEffect(() => {
+    if (reduceMotion) return;
+    const timer = setTimeout(() => setRestMounted(true), FIRST_PAINT_MS);
+    return () => clearTimeout(timer);
+  }, [reduceMotion]);
+
+  useEffect(() => {
+    if (!restMounted) return;
+    const timer = setInterval(
+      () => setIndex((current) => (current + 1) % SLIDE_COUNT),
+      SLIDE_MS,
+    );
+    return () => clearInterval(timer);
+  }, [restMounted]);
+
   return (
     <section
       ref={ref}
       className="relative h-[100svh] min-h-[640px] w-full overflow-hidden bg-ink-950 text-white"
     >
       <motion.div style={{ y }} className="absolute inset-0">
-        <Image
-          src="/photos/voodoo-festival-adepts.jpg"
-          alt="Vodun adepts in white robes beneath a ceremonial umbrella at the Ouidah voodoo festival"
-          fill
-          preload
-          sizes="100vw"
-          className="object-cover object-[center_30%]"
-        />
+        <picture>
+          <source media={PORTRAIT_PHONE} srcSet={leadPortraitSrcSet} />
+          <img
+            {...leadImgProps}
+            srcSet={leadLandscapeSrcSet}
+            alt={leadAlt}
+            className={cn(
+              // Faces sit in the upper middle of both shots; keep them clear of the headline.
+              "object-cover object-[center_28%] transition-opacity duration-[1400ms] ease-in-out portrait:max-md:object-[45%_18%]",
+              index === 0 ? "opacity-100" : "opacity-0",
+            )}
+          />
+        </picture>
+        {restMounted &&
+          slides.map((slide, i) => (
+            <Image
+              key={slide.src}
+              src={slide.src}
+              alt=""
+              fill
+              sizes="100vw"
+              className={cn(
+                "object-cover transition-opacity duration-[1400ms] ease-in-out",
+                slide.position,
+                i + 1 === index ? "opacity-100" : "opacity-0",
+              )}
+            />
+          ))}
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/80" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/45 via-black/10 to-transparent" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(0,0,0,0.5)_100%)]" />
       </motion.div>
 
