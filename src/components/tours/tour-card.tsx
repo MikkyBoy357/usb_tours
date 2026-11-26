@@ -1,7 +1,7 @@
 import { ArrowUpRight, Clock, Users } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
-import { formatDuration, formatFCFA } from "@/lib/format";
+import { TourCover } from "@/components/tours/tour-cover";
+import { formatDuration, formatPrice } from "@/lib/format";
 import type { Tour } from "@/lib/tours";
 
 type Props = {
@@ -16,13 +16,11 @@ export function TourCard({ tour, priority }: Props) {
       className="group relative flex flex-col overflow-hidden rounded-3xl bg-card shadow-sm ring-1 ring-border/60 transition-all duration-500 hover:-translate-y-0.5 hover:shadow-xl hover:ring-border"
     >
       <div className="relative aspect-[4/5] w-full overflow-hidden">
-        <Image
-          src={tour.cover.src}
-          alt={tour.cover.alt}
-          fill
-          priority={priority}
+        <TourCover
+          tour={tour}
+          preload={priority}
           sizes="(min-width: 1024px) 30vw, (min-width: 640px) 50vw, 100vw"
-          className="object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-105"
+          className="transition-transform duration-[1400ms] ease-out group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
         <div className="absolute left-5 right-5 top-5 flex items-center justify-between text-white">
@@ -45,14 +43,16 @@ export function TourCard({ tour, priority }: Props) {
             <Clock className="size-3.5" />
             {formatDuration(tour.durationDays)}
           </span>
-          <span className="inline-flex items-center gap-1.5">
-            <Users className="size-3.5" />
-            {tour.groupSize.min}–{tour.groupSize.max}
-          </span>
+          {tour.groupSize && (
+            <span className="inline-flex items-center gap-1.5">
+              <Users className="size-3.5" />
+              {tour.groupSize.min}–{tour.groupSize.max}
+            </span>
+          )}
         </div>
         <div className="flex items-center gap-2">
           <span className="whitespace-nowrap font-display text-base">
-            {formatFCFA(tour.priceFCFA)}
+            {formatPrice(tour.priceFCFA)}
           </span>
           <span
             className="inline-flex size-8 items-center justify-center rounded-full bg-foreground text-background transition-transform duration-300 group-hover:rotate-45"

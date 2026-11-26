@@ -1,6 +1,7 @@
 import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 type Crumb = { label: string; href?: string };
@@ -9,7 +10,9 @@ type Props = {
   eyebrow?: string;
   title: string;
   description?: string;
-  image: { src: string; alt: string };
+  image?: { src: string; alt: string };
+  /** Rendered in place of `image` when there is none. */
+  backdrop?: ReactNode;
   crumbs?: Crumb[];
   align?: "left" | "center";
   height?: "short" | "tall";
@@ -20,6 +23,7 @@ export function PageHero({
   title,
   description,
   image,
+  backdrop,
   crumbs,
   align = "left",
   height = "short",
@@ -31,14 +35,18 @@ export function PageHero({
         height === "short" ? "min-h-[60vh] py-32" : "min-h-[80vh] py-40",
       )}
     >
-      <Image
-        src={image.src}
-        alt={image.alt}
-        fill
-        preload
-        sizes="100vw"
-        className="object-cover object-center"
-      />
+      {image ? (
+        <Image
+          src={image.src}
+          alt={image.alt}
+          fill
+          preload
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+      ) : (
+        backdrop
+      )}
       <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/45 to-black/85" />
       <div
         className={cn(

@@ -7,20 +7,36 @@ describe("tours data", () => {
     expect(new Set(slugs).size).toBe(slugs.length);
   });
 
-  it("every tour has at least one highlight, one included item, and a non-empty itinerary", () => {
+  it("every tour says what's included", () => {
     for (const t of tours) {
-      expect(t.highlights.length).toBeGreaterThan(0);
       expect(t.included.length).toBeGreaterThan(0);
-      expect(t.itinerary.length).toBeGreaterThan(0);
     }
   });
 
-  it("itinerary day numbers match durationDays", () => {
-    for (const t of tours) {
+  it("every package has highlights and a day for each day of its itinerary", () => {
+    for (const t of tours.filter((t) => !t.steps)) {
+      expect(t.highlights.length).toBeGreaterThan(0);
       expect(t.itinerary.length).toBe(t.durationDays);
       expect(t.itinerary.map((d) => d.day)).toEqual(
         Array.from({ length: t.durationDays }, (_, i) => i + 1),
       );
+    }
+  });
+
+  it("every experience is a single day told in two to four steps", () => {
+    const experiences = tours.filter((t) => t.steps);
+    expect(experiences.length).toBeGreaterThan(0);
+    for (const t of experiences) {
+      expect(t.durationDays).toBe(1);
+      expect(t.steps?.length).toBeGreaterThanOrEqual(2);
+      expect(t.steps?.length).toBeLessThanOrEqual(4);
+      expect(t.itinerary).toEqual([]);
+    }
+  });
+
+  it("every tour shows a real photo or a stand-in tone, never neither", () => {
+    for (const t of tours) {
+      expect(Boolean(t.cover) || Boolean(t.coverTone)).toBe(true);
     }
   });
 });
@@ -35,10 +51,17 @@ describe("getTour", () => {
 });
 
 describe("getFeaturedTours", () => {
-  it("returns only featured tours", () => {
+  it("returns only ranked tours, in rank order", () => {
     const featured = getFeaturedTours();
     expect(featured.length).toBeGreaterThan(0);
-    expect(featured.every((t) => t.featured)).toBe(true);
+    const ranks = featured.map((t) => t.featuredRank);
+    expect(ranks.every((r) => r !== undefined)).toBe(true);
+    expect(ranks).toEqual([...ranks].sort((a, b) => (a ?? 0) - (b ?? 0)));
+  });
+
+  it("gives every featured tour a distinct rank", () => {
+    const ranks = getFeaturedTours().map((t) => t.featuredRank);
+    expect(new Set(ranks).size).toBe(ranks.length);
   });
 });
 

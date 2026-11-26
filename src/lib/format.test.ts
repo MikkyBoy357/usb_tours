@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatDuration, formatFCFA } from "./format";
+import { formatDuration, formatFCFA, formatPrice } from "./format";
 
 describe("formatFCFA", () => {
   it("formats whole francs with no decimals", () => {
@@ -17,5 +17,14 @@ describe("formatDuration", () => {
     expect(formatDuration(1)).toBe("1 day");
     expect(formatDuration(2)).toBe("2 days");
     expect(formatDuration(10)).toBe("10 days");
+  });
+});
+
+describe("formatPrice", () => {
+  it("formats a set price", () => {
+    expect(formatPrice(25000)).toBe("25,000 FCFA");
+  });
+  it("asks for the price when none is set", () => {
+    expect(formatPrice(undefined)).toBe("Ask for price");
   });
 });

@@ -3,10 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Container } from "@/components/site/container";
+import { TourCover } from "@/components/tours/tour-cover";
 import { getFeaturedTours } from "@/lib/tours";
 
 export default function NotFound() {
-  const tours = getFeaturedTours().slice(0, 3);
+  const tours = getFeaturedTours()
+    .filter((t) => t.cover)
+    .slice(0, 3);
 
   return (
     <>
@@ -64,10 +67,8 @@ export default function NotFound() {
                 href={`/tours/${t.slug}`}
                 className="group relative block aspect-[4/5] overflow-hidden rounded-3xl"
               >
-                <Image
-                  src={t.cover.src}
-                  alt={t.cover.alt}
-                  fill
+                <TourCover
+                  tour={t}
                   sizes="(min-width: 1024px) 33vw, 50vw"
                   className="object-cover transition-transform duration-[1400ms] group-hover:scale-105"
                 />

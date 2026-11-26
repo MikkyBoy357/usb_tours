@@ -1,4 +1,11 @@
+import { experiences } from "@/lib/experiences";
+
 export type DifficultyLevel = "Easy" | "Moderate" | "Challenging";
+
+export type TourPhoto = { src: string; alt: string; credit: string };
+
+/** Backdrop for a tour that has no real photo yet. */
+export type CoverTone = "clay" | "river" | "dusk";
 
 export type Tour = {
   slug: string;
@@ -8,20 +15,39 @@ export type Tour = {
   destination: string;
   country: string;
   durationDays: number;
-  groupSize: { min: number; max: number };
+  /** Omitted until the owner confirms it: shown as nothing rather than a guess. */
+  groupSize?: { min: number; max: number };
   difficulty: DifficultyLevel;
-  priceFCFA: number;
+  /** Omitted until the owner confirms it: shown as "Ask for price". */
+  priceFCFA?: number;
   startsFrom: string;
-  cover: { src: string; alt: string; credit: string };
-  gallery: { src: string; alt: string; credit: string }[];
+  /**
+   * Omitted when there is no real photo of this experience: a typographic cover
+   * in `coverTone` stands in, rather than a photo of somewhere else.
+   */
+  cover?: TourPhoto;
+  /**
+   * CSS object-position for the cover on featured cards, when the subject sits
+   * where the headline would cover it at the default framing.
+   */
+  coverFocus?: string;
+  coverTone?: CoverTone;
+  gallery: TourPhoto[];
+  /** Packages only; experiences say it all in `steps`. */
   highlights: string[];
   included: string[];
   notIncluded: string[];
+  /** Packages: one entry per day. Experiences leave it empty and use `steps`. */
   itinerary: { day: number; title: string; description: string }[];
+  /** Experiences: the whole plan in three short beats. */
+  steps?: { title: string; detail: string }[];
+  /** One- or two-word mood shown on featured cards, e.g. "Dare". */
+  vibe?: string;
   videoUrl?: string;
   coordinates: { lat: number; lng: number };
   tags: string[];
-  featured?: boolean;
+  /** Position in the homepage's featured section, 1 first. Unranked tours aren't featured. */
+  featuredRank?: number;
 };
 
 // Real photography from Tour with MrUSB departures across Benin Republic.
@@ -30,7 +56,7 @@ const p = (name: string) => `/photos/${name}.jpg`;
 const flyer = (name: string) => `/tour_packages/${name}_tour_package.jpeg`;
 const CREDIT = "Tour with MrUSB";
 
-export const tours: Tour[] = [
+const packages: Tour[] = [
   {
     slug: "basic-cotonou-tour",
     title: "Basic Package: The Cotonou Tour",
@@ -111,7 +137,6 @@ export const tours: Tour[] = [
     ],
     coordinates: { lat: 6.3654, lng: 2.4183 },
     tags: ["city", "food", "nightlife", "day-event"],
-    featured: true,
   },
   {
     slug: "standard-cotonou-ouidah-tour",
@@ -158,6 +183,11 @@ export const tours: Tour[] = [
         credit: CREDIT,
       },
       {
+        src: p("door-of-no-return-arch"),
+        alt: "The Door of No Return on the beach at Ouidah, the last stop of the Ouidah day",
+        credit: CREDIT,
+      },
+      {
         src: flyer("standard"),
         alt: "The Tour with MrUSB Standard package flyer for the Cotonou and Ouidah tour",
         credit: CREDIT,
@@ -193,7 +223,6 @@ export const tours: Tour[] = [
     ],
     coordinates: { lat: 6.3617, lng: 2.0852 },
     tags: ["city", "culture", "history"],
-    featured: true,
   },
   {
     slug: "premium-cotonou-ouidah-ganvie-tour",
@@ -240,6 +269,16 @@ export const tours: Tour[] = [
         credit: CREDIT,
       },
       {
+        src: p("ganvie-pirogue-stilt-houses"),
+        alt: "A traveller in a pirogue gliding past the stilt houses of Ganvié",
+        credit: CREDIT,
+      },
+      {
+        src: p("door-of-no-return-group"),
+        alt: "MrUSB travellers beneath the Door of No Return in Ouidah",
+        credit: CREDIT,
+      },
+      {
         src: flyer("premium"),
         alt: "The Tour with MrUSB Premium package flyer for the Cotonou, Ouidah and Ganvié tour",
         credit: CREDIT,
@@ -280,7 +319,6 @@ export const tours: Tour[] = [
     ],
     coordinates: { lat: 6.4667, lng: 2.4167 },
     tags: ["culture", "history", "village-life", "nature"],
-    featured: true,
   },
   {
     slug: "platinum-southern-benin-tour",
@@ -318,8 +356,13 @@ export const tours: Tour[] = [
         credit: CREDIT,
       },
       {
-        src: p("mangrove-splash"),
-        alt: "A guest on the water on the adventure leg of the tour",
+        src: p("gogotinkpon-clay-group"),
+        alt: "Guests covered in drying clay after the mud bath on the Gogotinkpon day",
+        credit: CREDIT,
+      },
+      {
+        src: p("black-river-pirogue-friends"),
+        alt: "Two travellers in a pirogue on the River Noir at Adjarra, on the Porto-Novo day",
         credit: CREDIT,
       },
       {
@@ -386,7 +429,6 @@ export const tours: Tour[] = [
     ],
     coordinates: { lat: 6.4969, lng: 2.6289 },
     tags: ["signature", "comprehensive", "culture", "adventure"],
-    featured: true,
   },
   {
     slug: "ouidah-voodoo-heritage",
@@ -436,6 +478,11 @@ export const tours: Tour[] = [
       {
         src: p("heritage-museum-facade"),
         alt: "The colonial-era heritage museum façade in Ouidah",
+        credit: CREDIT,
+      },
+      {
+        src: p("door-of-no-return-arch"),
+        alt: "The Door of No Return arch on the beach at Ouidah",
         credit: CREDIT,
       },
     ],
@@ -506,6 +553,11 @@ export const tours: Tour[] = [
       credit: CREDIT,
     },
     gallery: [
+      {
+        src: p("ganvie-pirogue-portrait"),
+        alt: "A traveller on a pirogue among the stilt homes of Ganvié",
+        credit: CREDIT,
+      },
       {
         src: p("mangrove-kayaking"),
         alt: "Travellers kayaking through the mangroves on Lake Nokoué",
@@ -787,85 +839,6 @@ export const tours: Tour[] = [
     tags: ["history", "culture", "unesco"],
   },
   {
-    slug: "sip-and-paint-beach",
-    title: "Sip & Paint on the Coast",
-    tagline: "A canvas, a brush, a cold coconut, and the Atlantic behind you.",
-    summary:
-      "Our day event on the Cotonou coast — easels under a beach paillote, a resident artist walking you through your piece, fresh coconuts and grilled food, and a finished canvas to carry home. No experience needed, and nobody has ever left with a blank one.",
-    destination: "Cotonou beachfront",
-    country: "Benin Republic",
-    durationDays: 1,
-    groupSize: { min: 6, max: 40 },
-    difficulty: "Easy",
-    priceFCFA: 25000,
-    startsFrom: "Cotonou",
-    cover: {
-      src: p("sip-paint-easels-line"),
-      alt: "Guests painting side by side at easels during a MrUSB Sip & Paint on the Cotonou coast",
-      credit: CREDIT,
-    },
-    gallery: [
-      {
-        src: p("sip-paint-beach-setup"),
-        alt: "Easels and long tables set up under a thatched beach paillote before the Sip & Paint begins",
-        credit: CREDIT,
-      },
-      {
-        src: p("sip-paint-artist-pink"),
-        alt: "A guest in a floral cap painting a figure among palm fronds at her easel",
-        credit: CREDIT,
-      },
-      {
-        src: p("sip-paint-focused-painter"),
-        alt: "A young man leaning into his canvas, brush in hand, at the beach paillote",
-        credit: CREDIT,
-      },
-      {
-        src: p("sip-paint-couple-canvas"),
-        alt: "A line-drawn portrait of a couple taking shape on a canvas beside a vase of flowers",
-        credit: CREDIT,
-      },
-      {
-        src: p("sip-paint-coconut-friends"),
-        alt: "Two guests sipping fresh coconuts on the sand between painting sessions",
-        credit: CREDIT,
-      },
-      {
-        src: p("sip-paint-frames-artwork-duo"),
-        alt: "Two guests holding up their finished paintings inside the MrUSB photo frames",
-        credit: CREDIT,
-      },
-    ],
-    highlights: [
-      "A guided painting session with a resident Beninese artist",
-      "Easels, canvases, paint and aprons all provided",
-      "Fresh coconuts, drinks and grilled food on the sand",
-      "Photo frames, music and games once the brushes go down",
-      "Your finished canvas to take home",
-    ],
-    included: [
-      "All art materials and a canvas per guest",
-      "Artist-led session and guidance throughout",
-      "Welcome drink and a fresh coconut",
-      "Beach venue access for the day",
-      "Event photography by the MrUSB team",
-    ],
-    notIncluded: [
-      "Transport to the venue (can be arranged)",
-      "Additional food and drinks",
-    ],
-    itinerary: [
-      {
-        day: 1,
-        title: "Brushes, Beach & Canvas",
-        description:
-          "Arrive late morning to easels set up under the paillote, meet the artist and the group, paint through the afternoon with coconuts and music in the background, then photos on the sand with the piece you made.",
-      },
-    ],
-    coordinates: { lat: 6.3419, lng: 2.4437 },
-    tags: ["creative", "day-event", "beach"],
-  },
-  {
     slug: "grand-tour-benin",
     title: "The Grand Tour of Benin",
     tagline: "10 days. South to north. Everything that matters.",
@@ -971,12 +944,17 @@ export const tours: Tour[] = [
   },
 ];
 
+/** Single-day experiences first, then the multi-day packages. */
+export const tours: Tour[] = [...experiences, ...packages];
+
 export function getTour(slug: string): Tour | undefined {
   return tours.find((t) => t.slug === slug);
 }
 
 export function getFeaturedTours(): Tour[] {
-  return tours.filter((t) => t.featured);
+  return tours
+    .filter((t) => t.featuredRank !== undefined)
+    .sort((a, b) => (a.featuredRank ?? 0) - (b.featuredRank ?? 0));
 }
 
 export function getRelatedTours(slug: string, n = 3): Tour[] {

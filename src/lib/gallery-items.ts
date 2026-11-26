@@ -21,7 +21,7 @@ export function buildGalleryItems(): GalleryItem[] {
     const tag = t.tags[0]
       ? t.tags[0].charAt(0).toUpperCase() + t.tags[0].slice(1)
       : undefined;
-    if (isPhotography(t.cover.src)) {
+    if (t.cover && isPhotography(t.cover.src)) {
       items.push({ src: t.cover.src, alt: t.cover.alt, tag });
     }
     for (const g of t.gallery) {

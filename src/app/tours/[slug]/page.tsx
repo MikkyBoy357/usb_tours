@@ -1,4 +1,4 @@
-import { Check, Clock, MapPin, Mountain, Users, X } from "lucide-react";
+import { Check, Clock, MapPin, Mountain, Users, Wallet, X } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -9,11 +9,16 @@ import { Reveal } from "@/components/site/reveal";
 import { SectionHeading } from "@/components/site/section-heading";
 import { Itinerary } from "@/components/tours/itinerary";
 import { TourCard } from "@/components/tours/tour-card";
+import { TourCover } from "@/components/tours/tour-cover";
 import { TourGallery } from "@/components/tours/tour-gallery";
 import { TourMap } from "@/components/tours/tour-map";
-import { formatDuration, formatFCFA } from "@/lib/format";
+import { formatDuration, formatPrice } from "@/lib/format";
 import { siteConfig } from "@/lib/site";
-import { getRelatedTours, getTour, tours } from "@/lib/tours";
+import { getRelatedTours, getTour, type Tour, tours } from "@/lib/tours";
+
+/** Experiences run inside a day; "1 day" would oversell a two-hour outing. */
+const durationLabel = (tour: Tour) =>
+  tour.steps ? "Day trip" : formatDuration(tour.durationDays);
 
 export function generateStaticParams() {
   return tours.map((t) => ({ slug: t.slug }));
@@ -32,14 +37,17 @@ export async function generateMetadata(
     openGraph: {
       title: tour.title,
       description: tour.summary,
-      images: [{ url: tour.cover.src, alt: tour.cover.alt }],
+      // Without a cover, the site-wide default social image applies.
+      ...(tour.cover && {
+        images: [{ url: tour.cover.src, alt: tour.cover.alt }],
+      }),
       type: "article",
     },
     twitter: {
       card: "summary_large_image",
       title: tour.title,
       description: tour.summary,
-      images: [tour.cover.src],
+      ...(tour.cover && { images: [tour.cover.src] }),
     },
   };
 }
@@ -52,30 +60,39 @@ export default async function TourDetailPage(
   if (!tour) notFound();
 
   const related = getRelatedTours(tour.slug, 3);
+  const photos = [...(tour.cover ? [tour.cover] : []), ...tour.gallery];
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "TouristTrip",
     name: tour.title,
     description: tour.summary,
-    image: [tour.cover.src, ...tour.gallery.map((g) => g.src)],
+    image: photos.map((g) => g.src),
     provider: {
       "@type": "TravelAgency",
       name: siteConfig.name,
       url: siteConfig.url,
     },
-    offers: {
-      "@type": "Offer",
-      price: tour.priceFCFA,
-      priceCurrency: "XOF",
-      availability: "https://schema.org/InStock",
-    },
+    ...(tour.priceFCFA !== undefined && {
+      offers: {
+        "@type": "Offer",
+        price: tour.priceFCFA,
+        priceCurrency: "XOF",
+        availability: "https://schema.org/InStock",
+      },
+    }),
     touristType: tour.tags,
-    itinerary: tour.itinerary.map((d) => ({
-      "@type": "ItemList",
-      name: `Day ${d.day} — ${d.title}`,
-      description: d.description,
-    })),
+    itinerary: tour.steps
+      ? tour.steps.map((step, i) => ({
+          "@type": "ItemList",
+          name: `Step ${i + 1} — ${step.title}`,
+          description: step.detail,
+        }))
+      : tour.itinerary.map((d) => ({
+          "@type": "ItemList",
+          name: `Day ${d.day} — ${d.title}`,
+          description: d.description,
+        })),
   };
 
   return (
@@ -96,6 +113,7 @@ export default async function TourDetailPage(
           { label: tour.title },
         ]}
         image={tour.cover}
+        backdrop={<TourCover tour={tour} sizes="100vw" />}
         height="tall"
       />
 
@@ -103,16 +121,20 @@ export default async function TourDetailPage(
       <section className="border-b border-border bg-background">
         <Container>
           <div className="grid grid-cols-2 gap-y-6 py-8 sm:grid-cols-4 lg:py-10">
-            <Stat
-              icon={Clock}
-              label="Duration"
-              value={formatDuration(tour.durationDays)}
-            />
-            <Stat
-              icon={Users}
-              label="Group size"
-              value={`${tour.groupSize.min}–${tour.groupSize.max} travelers`}
-            />
+            <Stat icon={Clock} label="Duration" value={durationLabel(tour)} />
+            {tour.groupSize ? (
+              <Stat
+                icon={Users}
+                label="Group size"
+                value={`${tour.groupSize.min}–${tour.groupSize.max} travelers`}
+              />
+            ) : (
+              <Stat
+                icon={Wallet}
+                label="Price"
+                value={formatPrice(tour.priceFCFA)}
+              />
+            )}
             <Stat icon={Mountain} label="Difficulty" value={tour.difficulty} />
             <Stat icon={MapPin} label="Starts from" value={tour.startsFrom} />
           </div>
@@ -125,37 +147,69 @@ export default async function TourDetailPage(
             <div className="lg:col-span-7">
               <Reveal>
                 <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
-                  About this journey
+                  {tour.steps ? "About this experience" : "About this journey"}
                 </p>
                 <p className="mt-4 text-pretty text-lg leading-relaxed text-foreground/85">
                   {tour.summary}
                 </p>
               </Reveal>
 
-              <Reveal className="mt-14">
-                <SectionHeading eyebrow="Highlights" title="What you'll do." />
-                <ul className="mt-8 grid gap-3 sm:grid-cols-2">
-                  {tour.highlights.map((h) => (
-                    <li key={h} className="flex items-start gap-3">
-                      <span className="mt-1 inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-accent/15 text-accent">
-                        <Check className="size-3" />
-                      </span>
-                      <span className="text-sm leading-relaxed">{h}</span>
-                    </li>
-                  ))}
-                </ul>
-              </Reveal>
+              {tour.highlights.length > 0 && (
+                <Reveal className="mt-14">
+                  <SectionHeading
+                    eyebrow="Highlights"
+                    title="What you'll do."
+                  />
+                  <ul className="mt-8 grid gap-3 sm:grid-cols-2">
+                    {tour.highlights.map((h) => (
+                      <li key={h} className="flex items-start gap-3">
+                        <span className="mt-1 inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-accent/15 text-accent">
+                          <Check className="size-3" />
+                        </span>
+                        <span className="text-sm leading-relaxed">{h}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Reveal>
+              )}
 
-              <Reveal className="mt-16">
-                <SectionHeading
-                  eyebrow="Day by day"
-                  title="The itinerary."
-                  description="Indicative — every trip is fine-tuned to your group."
-                />
-                <div className="mt-10">
-                  <Itinerary tour={tour} />
-                </div>
-              </Reveal>
+              {tour.steps ? (
+                <Reveal className="mt-16">
+                  <SectionHeading
+                    eyebrow="How it goes"
+                    title={`${tour.steps.length} steps. That's it.`}
+                  />
+                  <ol className="mt-10 grid gap-4 sm:grid-cols-3">
+                    {tour.steps.map((step, i) => (
+                      <li
+                        key={step.title}
+                        className="rounded-3xl border border-border bg-card p-6"
+                      >
+                        <span className="font-display text-4xl italic text-accent">
+                          {i + 1}
+                        </span>
+                        <h3 className="mt-4 font-display text-xl leading-tight">
+                          {step.title}
+                        </h3>
+                        <p className="mt-2 text-pretty text-sm leading-relaxed text-muted-foreground">
+                          {step.detail}
+                        </p>
+                      </li>
+                    ))}
+                  </ol>
+                </Reveal>
+              ) : (
+                <Reveal className="mt-16">
+                  <SectionHeading
+                    eyebrow="Day by day"
+                    title="The itinerary."
+                    description="Indicative — every trip is fine-tuned to your group."
+                  />
+                  <div className="mt-10">
+                    <Itinerary tour={tour} />
+                  </div>
+                </Reveal>
+              )}
 
               <Reveal className="mt-16">
                 <SectionHeading
@@ -192,15 +246,31 @@ export default async function TourDetailPage(
                 <div className="rounded-3xl border border-border bg-card p-6 shadow-sm">
                   <div className="flex items-end justify-between">
                     <div>
-                      <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
-                        From
-                      </p>
-                      <p className="font-display text-3xl tracking-tight">
-                        {formatFCFA(tour.priceFCFA)}
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        per traveler · see what&rsquo;s included below
-                      </p>
+                      {tour.priceFCFA !== undefined ? (
+                        <>
+                          <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                            From
+                          </p>
+                          <p className="font-display text-3xl tracking-tight">
+                            {formatPrice(tour.priceFCFA)}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            per traveler · see what&rsquo;s included below
+                          </p>
+                        </>
+                      ) : (
+                        <>
+                          <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                            Price
+                          </p>
+                          <p className="font-display text-3xl tracking-tight">
+                            Ask us
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            Message us and we&rsquo;ll send you the price
+                          </p>
+                        </>
+                      )}
                     </div>
                     <span className="rounded-full bg-accent/15 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-accent">
                       {tour.difficulty}
@@ -211,15 +281,17 @@ export default async function TourDetailPage(
                     <li className="flex items-center justify-between text-muted-foreground">
                       <span>Duration</span>
                       <span className="text-foreground">
-                        {formatDuration(tour.durationDays)}
+                        {durationLabel(tour)}
                       </span>
                     </li>
-                    <li className="flex items-center justify-between text-muted-foreground">
-                      <span>Group size</span>
-                      <span className="text-foreground">
-                        {tour.groupSize.min}–{tour.groupSize.max}
-                      </span>
-                    </li>
+                    {tour.groupSize && (
+                      <li className="flex items-center justify-between text-muted-foreground">
+                        <span>Group size</span>
+                        <span className="text-foreground">
+                          {tour.groupSize.min}–{tour.groupSize.max}
+                        </span>
+                      </li>
+                    )}
                     <li className="flex items-center justify-between text-muted-foreground">
                       <span>Starts from</span>
                       <span className="text-foreground">{tour.startsFrom}</span>
@@ -255,20 +327,22 @@ export default async function TourDetailPage(
       </section>
 
       {/* Gallery */}
-      <section className="bg-sand-50 py-20 lg:py-28">
-        <Container>
-          <Reveal>
-            <SectionHeading
-              eyebrow="The journey"
-              title="In pictures."
-              description="From the field — recent departures."
-            />
-          </Reveal>
-          <div className="mt-12">
-            <TourGallery images={[tour.cover, ...tour.gallery]} />
-          </div>
-        </Container>
-      </section>
+      {photos.length > 0 && (
+        <section className="bg-sand-50 py-20 lg:py-28">
+          <Container>
+            <Reveal>
+              <SectionHeading
+                eyebrow="The journey"
+                title="In pictures."
+                description="From the field — recent departures."
+              />
+            </Reveal>
+            <div className="mt-12">
+              <TourGallery images={photos} />
+            </div>
+          </Container>
+        </section>
+      )}
 
       {/* Inquiry */}
       <section id="inquiry" className="py-20 lg:py-28">
