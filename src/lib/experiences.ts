@@ -58,6 +58,50 @@ export const experiences: Tour[] = [
         "python-temple-young-man",
         "A young traveller holding a python up beside his face",
       ),
+      photo(
+        "python-temple-cap-laugh",
+        "A guest in a black cap laughing as a python wraps around his neck",
+      ),
+      photo(
+        "python-temple-woman-braids",
+        "A guest with braids holding a royal python across her shoulders",
+      ),
+      photo(
+        "python-temple-white-shirt",
+        "A traveller in a white shirt grinning down at the python on his shoulders",
+      ),
+      photo(
+        "python-temple-braids",
+        "A guest smiling as a python coils up beside her face",
+      ),
+      photo(
+        "python-temple-guest",
+        "A guest holding the royal python draped around his neck",
+      ),
+      photo(
+        "python-temple-woman-shades",
+        "A guest in sunglasses calmly wearing a python at the temple",
+      ),
+      photo(
+        "python-temple-plaid",
+        "A traveller in a plaid shirt smiling with a python around his neck",
+      ),
+      photo(
+        "python-temple-shades-look",
+        "A guest in sunglasses eyeing the python on his shoulders",
+      ),
+      photo(
+        "python-temple-cap-smile",
+        "A guest in a cap smiling with a python hanging around his neck",
+      ),
+      photo(
+        "python-temple-woman",
+        "A guest in a headwrap looking down at the python in her hands",
+      ),
+      photo(
+        "python-temple-glance",
+        "A guest glancing sideways at the python across his shoulders",
+      ),
     ],
     highlights: [],
     included: [GUIDE],
